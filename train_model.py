@@ -16,6 +16,16 @@ from model import BNN, FullPrecision
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import binarize
+import random
+import numpy as np
+import time
+
+# Set seed
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
 
 # Load dataset (MNIST):
 t = transforms.ToTensor()
@@ -30,6 +40,8 @@ test_set= DataLoader(test_data, batch_size=100, shuffle=False)
 
 # Evaluate model:
 def evaluate(model):
+    model.eval()
+
     # Counter for True Pos:
     correct_pred = 0
 
@@ -54,7 +66,9 @@ parser.add_argument('--model', type=str, default='bnn')
 parser.add_argument('--no_ste', action='store_true')
 parser.add_argument('--no_clip', action='store_true')
 parser.add_argument('--epochs', type=int, default=10)
+parser.add_argument('--seed', type = int, default = 25)
 args = parser.parse_args()
+set_seed(args.seed)
 
 # If STE is off, updated args:
 binarize.ste_off = args.no_ste
@@ -70,6 +84,11 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # Loss func:
 cross_entropy = nn.CrossEntropyLoss()
+
+# Track training time and display parameters
+start_time = time.time()
+n_params = sum(p.numel() for p in model.parameters())
+print(f"Parameters: {n_params}")
 
 # Train Model:
 for epoch in range(args.epochs):
@@ -105,3 +124,7 @@ for epoch in range(args.epochs):
 
     # Display accuracy:
     print(f"Epoch {epoch+1}, Test Accuracy: {accuracy*100:.2f}%") 
+
+# Display training time
+elapsed = time.time() - start_time
+print(f"Total training time: {elapsed:.2f}s")
