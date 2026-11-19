@@ -1,0 +1,12 @@
+Parameters: 204042
+Epoch 1, Test Accuracy: 91.25%
+Epoch 2, Test Accuracy: 90.76%
+Epoch 3, Test Accuracy: 92.41%
+Epoch 4, Test Accuracy: 92.07%
+Epoch 5, Test Accuracy: 92.79%
+Epoch 6, Test Accuracy: 92.51%
+Epoch 7, Test Accuracy: 92.43%
+Epoch 8, Test Accuracy: 92.48%
+Epoch 9, Test Accuracy: 92.41%
+Epoch 10, Test Accuracy: 93.04%
+Total training time: 72.02s

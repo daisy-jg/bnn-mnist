@@ -1,0 +1,18 @@
+
+Model: full, Seed: 25
+Final accuracy: 97.95% | Training Time: 66.40s | Parameters: 204042
+
+Model: full, Seed: 30
+Final accuracy: 97.86% | Training Time: 62.18s | Parameters: 204042
+
+Model: full, Seed: 35
+Final accuracy: 97.89% | Training Time: 61.61s | Parameters: 204042
+
+Model: bnn, Seed: 25
+Final accuracy: 92.23% | Training Time: 70.56s | Parameters: 204042
+
+Model: bnn, Seed: 30
+Final accuracy: 92.95% | Training Time: 69.39s | Parameters: 204042
+
+Model: bnn, Seed: 35
+Final accuracy: 93.04% | Training Time: 72.02s | Parameters: 204042
