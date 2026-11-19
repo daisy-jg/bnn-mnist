@@ -19,6 +19,8 @@ import binarize
 import random
 import numpy as np
 import time
+import os 
+import psutil 
 
 # Set seed
 def set_seed(seed):
@@ -26,6 +28,11 @@ def set_seed(seed):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+
+# Get memory
+def get_memory():
+    process = psutil.Process(os.getpid())
+    return process.memory_info().rss / 1_000_000
 
 # Load dataset (MNIST):
 t = transforms.ToTensor()
@@ -85,8 +92,12 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 # Loss func:
 cross_entropy = nn.CrossEntropyLoss()
 
-# Track training time and display parameters
-start_time = time.time()
+# Track training time, cpu, and memory
+start_time = time.perf_counter()
+cpu_start = time.process_time()
+peak_mb = get_memory()
+
+# Display parameters
 n_params = sum(p.numel() for p in model.parameters())
 print(f"Parameters: {n_params}")
 
@@ -119,12 +130,22 @@ for epoch in range(args.epochs):
         # Update weights:
         optimizer.step()
 
-    # Evaluiate model after loop:
+    # Evaluate model after loop:
     accuracy = evaluate(model)
+
+    # Update memory after each epoch
+    current_mb = get_memory()
+    if current_mb > peak_mb:
+        peak_mb = current_mb
 
     # Display accuracy:
     print(f"Epoch {epoch+1}, Test Accuracy: {accuracy*100:.2f}%") 
 
-# Display training time
-elapsed = time.time() - start_time
-print(f"Total training time: {elapsed:.2f}s")
+# Display training time, peak memory, and CPU utilization
+elapsed = time.perf_counter() - start_time
+cpu_elapsed = time.process_time() - cpu_start
+cpu_util = (cpu_elapsed / (elapsed * os.cpu_count())) * 100
+
+print(f"Total Training Time: {elapsed:.2f}s")
+print(f"Memory (between epochs): {peak_mb:.2f} MB")
+print(f"Average CPU Utilization (overall process): {cpu_util:.2f}%")

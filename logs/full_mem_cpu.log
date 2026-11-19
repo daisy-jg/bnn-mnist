@@ -1,0 +1,14 @@
+Parameters: 204042
+Epoch 1, Test Accuracy: 96.48%
+Epoch 2, Test Accuracy: 97.30%
+Epoch 3, Test Accuracy: 97.64%
+Epoch 4, Test Accuracy: 97.74%
+Epoch 5, Test Accuracy: 97.78%
+Epoch 6, Test Accuracy: 97.86%
+Epoch 7, Test Accuracy: 97.93%
+Epoch 8, Test Accuracy: 98.07%
+Epoch 9, Test Accuracy: 97.80%
+Epoch 10, Test Accuracy: 97.95%
+Total Training Time: 65.67s
+Memory (between epochs): 355.01 MB
+Average CPU Utilization (overall process): 47.75%
